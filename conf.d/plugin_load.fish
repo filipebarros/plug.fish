@@ -23,6 +23,15 @@ for plugin in $plugins
         echo Installing (set_color --bold)$plugin_name(set_color normal)
 
         git clone --quiet --filter blob:none $plugin $plugin_dir
+
+        for theme in $plugin_dir/themes/*.theme
+            set --local theme_name (path basename $theme)
+            set --local theme_dest $__fish_config_dir/themes/$theme_name
+
+            test -d $__fish_config_dir/themes || mkdir -p $__fish_config_dir/themes
+
+            cp $theme $theme_dest
+        end
     end
 
     for conf in $plugin_dir/conf.d/*.fish
